@@ -2,7 +2,7 @@
 #include <string.h>
 
 int main(int argc, char *argv[]) {
-    // 1. Verificação básica de quantidade de argumentos
+    // Verificação básica de quantidade de argumentos
     // Esperado: programa (0) + add (1) + path (2) + "caminho" (3) = 4 argumentos
     if (argc != 4) {
         printf("Erro: Formato invalido.\n");
@@ -10,17 +10,17 @@ int main(int argc, char *argv[]) {
         return 1;
     }
 
-    // 2. Validação dos comandos "add" e "path"
+    // Validação dos comandos "add" e "path"
     // strcmp retorna 0 quando as strings são iguais
     if (strcmp(argv[1], "add") != 0 || strcmp(argv[2], "path") != 0) {
         printf("Erro: Comando desconhecido. Voce quis dizer 'add path'?\n");
         return 1;
     }
 
-    // 3. O caminho recebido do terminal
+    // caminho recebido do terminal
     char *caminhoRecebido = argv[3];
 
-    // 4. Operação de Arquivo
+    // Operação de Arquivo
     FILE *arquivo = fopen("config.txt", "a");
 
     if (arquivo == NULL) {
