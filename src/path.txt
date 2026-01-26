@@ -29,5 +29,12 @@ Se o usuário digitar wsation rm path
 
 Se o usuário digitar wstaion start work
     Percorre todo o arquivo txt com um Array que recebe cada path. exemplo = paths[3] { 0 == c:\bath\pipi.exe, 1 == c:\bath\popo.exe, 2 == c:\toddy\iup\batata.exe}
+        lê os caracteres e se verificar ";" adciona o que tem antes dos pontos em path[0] e visse versa.
+
+    Se não houver paths, alertar o usuário.
+    Se não  
+        Começa um looping que só termina até o último path ser executado    
+    
+    
 
 
