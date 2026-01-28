@@ -70,18 +70,21 @@ sudo mv wstaion /usr/local/bin/
 Após isso, teste algum comando já funcional
 
 **Adicionar um programa:**
+
 Você pode mapear um programa digitando o seu caminho completo da raiz.
 ```bash
 wstaion add path "/usr/bin/firefox"
 ```
 
 **Remover um programa:**
+
 Para remover um caminho adcionado basta usar o comando **rm**
 ```bash
 wstaion rm path "/usr/bin/firefox"
 ```
 
 **Iniciar o ambiente de trabalho:**
+
 Agora, para iniciar os programas basta usar o seguinte comando.
 ```bash
 wstaion workstart
@@ -112,21 +115,6 @@ git checkout -b minha-feature
 
 Faça suas alterações, commit e envie um Pull Request explicando claramente o que foi feito.
 
----
-
-### 🛠️ Build
-
-Para compilar o projeto:
-
-```bash
-make
-```
-
-Ou manualmente:
-
-```bash
-gcc main.c -o wstaion
-```
 
 ---
 
