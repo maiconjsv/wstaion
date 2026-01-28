@@ -22,7 +22,7 @@ Atualmente a ferramenta está na sua versão 0.1 e conta com a função de mapea
     A idéia é focar em salvar diretamente no terminal conceitos e palavras(técnicas ou não) e escrever um breve resumo do seu significado, podendo ser útil para novos colaboradores       ou projetos que exigem aprender vários novos conceitos e palavras chave que precisam ser relembradas com frequência ou eventualmente, e com isso, tornara consulta mais rápida e       eficiente pela natureza do terminal estar de fácil acesso a todo momento.
   
 * **Versão para Windows**
-    Adcionar uma versão para Windows, para ser utilizada via PowerShell.
+    (parcialmente feita)Adcionar uma versão para Windows, para ser utilizada via PowerShell.
 
 * **Verificação de paths duplicados antes de adicionar**
 * **Listagem dos programas cadastrados**
