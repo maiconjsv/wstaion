@@ -1,29 +1,34 @@
 # WSTAION
+> ⚠️ **Versão atual:** `0.1`
 
 ## 🇧🇷 Português (PT-BR)
 
-### 📌 O que é o WSTAION?
+### O que é o WSTAION?
 
 **WSTAION** é uma ferramenta de linha de comando (CLI) escrita em **C**, criada para facilitar o fluxo de trabalho do dia a dia
 Atualmente a ferramenta está na sua versão 0.1 e conta com a função de mapear programas do Linux e executá-los em sequência, garantindo que você não precise ficar abrindo diversos programas na sua máquina pessoal ou da sua empresa para realmente começar a trabalhar. Basta apenas mapear os programas desejados, e sempre que for iniciar o trabalho, apertar apenas um comando e esperar os programas abrirem pra você.
 
-### Versões futuras
-**** com um único comando.
-
-A ideia é simples: você registra os caminhos de programas que usa no dia a dia (navegador, editor, IDE, etc.) e, quando quiser iniciar seu ambiente de trabalho, executa tudo automaticamente.
-
-> ⚠️ **Versão atual:** `0.1`
-
-Esta é uma versão inicial, focada exclusivamente em **Linux**.
-
----
 
 ### 🚀 Funcionalidades atuais (v0.1)
 
-* Adicionar caminhos de programas ao WSTAION
+* Adicionar caminhos de programas que vão ser executados
+* Remover caminhos adcionados no path
 * Armazenar os paths em um arquivo de configuração do usuário
-* Executar todos os programas registrados em ordem
-* Interface simples via terminal
+* Executar todos os programas mapeados sem sobrecarregar a memória
+
+
+### Features futuras em desenvolvimento
+* **Salvar palavras chaves em um dicionário pessoal**
+    A idéia é focar em salvar diretamente no terminal conceitos e palavras(técnicas ou não) e escrever um breve resumo do seu significado, podendo ser útil para novos colaboradores       ou projetos que exigem aprender vários novos conceitos e palavras chave que precisam ser relembradas com frequência ou eventualmente, e com isso, tornara consulta mais rápida e       eficiente pela natureza do terminal estar de fácil acesso a todo momento.
+  
+* **Versão para Windows**
+    Adcionar uma versão para Windows, para ser utilizada via PowerShell.
+
+* **Verificação de paths duplicados antes de adicionar**
+* **Listagem dos programas cadastrados**
+* **Configurações extras via arquivo**
+
+---
 
 Os caminhos são armazenados em:
 
@@ -33,29 +38,29 @@ Os caminhos são armazenados em:
 
 ---
 
-### 🧪 Exemplos de uso
+### 🧪 Documentação de uso
 
-Adicionar um programa:
-
+**Adicionar um programa:**
+Você pode mapear um programa digitando o seu caminho completo da raiz.
 ```bash
 wstaion add path "/usr/bin/firefox"
 ```
 
-Remover um programa:
-
+**Remover um programa:**
+Para remover um caminho adcionado basta usar o comando **rm**
 ```bash
 wstaion rm path "/usr/bin/firefox"
 ```
 
-Iniciar o ambiente de trabalho:
-
+**Iniciar o ambiente de trabalho:**
+Agora, para iniciar os programas basta usar o seguinte comando.
 ```bash
 wstaion workstart
 ```
 
 ---
 
-### 📂 Estrutura de configuração
+### 📂 Estrutura da função de mapear e inicializar os programas
 
 O WSTAION segue o padrão do Linux para configurações de usuário:
 
@@ -69,12 +74,6 @@ Cada linha do `path.txt` representa um programa que será executado na ordem em 
 ---
 
 ### 🛣️ Roadmap (próximas features)
-
-* 🔁 Verificação de paths duplicados antes de adicionar
-* 🪟 Versão para Windows
-* 🗑️ Comando para remover paths
-* 📋 Listagem dos programas cadastrados
-* ⚙️ Configurações extras via arquivo
 
 ---
 
