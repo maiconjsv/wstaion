@@ -92,6 +92,84 @@ wstaion workstart
 ```
 ---
 ###Windows
+## Instalação no Windows
+No Windows, um comando só pode ser executado de qualquer lugar se o executável estiver em uma pasta listada na variável de ambiente **PATH**.
+
+Por isso, é necessário:
+- colocar o `wstaion.exe` em uma pasta fixa
+- adicionar essa pasta ao PATH do usuário
+
+Esse processo **não altera o sistema**, apenas o usuário atual.
+
+---
+
+### Passo a passo
+
+#### 1. Baixar o executável
+- Acesse a aba **Releases** deste repositório
+- Baixe o arquivo `.zip` da versão Windows
+- Extraia o conteúdo
+
+---
+
+#### 2. Criar uma pasta para executáveis do usuário
+Crie a seguinte pasta (caso ainda não exista):
+
+```bash
+C:\Users\SeuUsuario\bin
+```
+Essa pasta será usada para armazenar comandos personalizados.
+---
+
+#### 3. Mover o executável
+Mova o arquivo **wstaion.exe** para dentro da pasta **C:\Users\SeuUsuario\bin**
+
+Exemplo final:
+```bash
+C:\Users\Maicon\bin\wstaion.exe
+```
+
+---
+
+#### 4. Adicionar a pasta ao PATH do usuário
+1. Pressione **Win + R**
+
+2. Digite: **sysdm.cpl**
+3. Vá até a aba **Avançado**
+4. Clique em **Variáveis de Ambiente**
+5. Em **Variáveis do usuário**, selecione **Path**
+6. Clique em **Editar**
+7. Clique em **Novo**
+8. Adicione: **C:\Users\SeuUsuario\bin**
+9. Confirme tudo com **OK**
+
+⚠️ Use apenas **Variáveis do usuário**.  
+Não é necessário permissão de administrador.
+
+---
+
+#### 5. Reiniciar o terminal
+Feche todos os terminais abertos e abra um novo.
+
+---
+
+#### 6. Testar a instalação
+No terminal (CMD ou PowerShell), execute:
+
+```cmd
+where wstaion
+```
+Se o caminho do executável for exibido, a instalação foi concluída com sucesso.
+
+Agora teste:
+```cmd
+wstaion help
+```
+
+
+
+
+
 Compilar com MinGW:
 gcc main.c platform_windows.c -o wstaion.exe
 
