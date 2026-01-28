@@ -44,6 +44,7 @@ Cada linha do `path.txt` representa um programa que será executado na ordem em 
 * GCC
 * MAKE
 * GIT
+
 Caso for uma distro baseada em Debian/Unbutu
 ```bash
 sudo apt install build-essential git
