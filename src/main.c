@@ -1,12 +1,19 @@
 #include <stdio.h>
 #include <string.h>
+#include <unistd.h>
+#include <sys/wait.h>
+#include <stdlib.h>
+#include <sys/stat.h>
+#include <errno.h>
 
 void add_path(char *path);
 void rm_path(const char *path);
+void run_for_each_path(void);
+void ensure_config_dir(void);
+void get_path_file(char *buffer, size_t size);
 
 int main(int argc, char *argv[])
 {
-
     if (argc < 2)
     {
         printf("Comando não reconhecido, use wstation help para verificar comandos.\n");
@@ -26,6 +33,10 @@ int main(int argc, char *argv[])
     {
         printf("Erro: Faltou o caminho.\n");
     }
+    else if (argc == 2 && strcmp(argv[1], "workstart") == 0)
+    {
+        run_for_each_path();
+    }
     else
     {
         printf("Comando não reconhecido, use wstation help para verificar comandos.\n");
@@ -34,18 +45,60 @@ int main(int argc, char *argv[])
     return 0;
 }
 
+/* ===================== UTILIDADES ===================== */
+
+void ensure_config_dir(void)
+{
+    const char *home = getenv("HOME");
+    if (!home)
+    {
+        fprintf(stderr, "Erro: variável HOME não definida.\n");
+        exit(1);
+    }
+
+    char dir[1024];
+    snprintf(dir, sizeof(dir), "%s/.config/wstation", home);
+
+    if (mkdir(dir, 0755) == -1 && errno != EEXIST)
+    {
+        perror("Erro ao criar diretório de configuração");
+        exit(1);
+    }
+}
+
+void get_path_file(char *buffer, size_t size)
+{
+    const char *home = getenv("HOME");
+    if (!home)
+    {
+        fprintf(stderr, "Erro: variável HOME não definida.\n");
+        exit(1);
+    }
+
+    snprintf(buffer, size,
+             "%s/.config/wstation/path.txt",
+             home);
+}
+
+/* ===================== ADD PATH ===================== */
+
 void add_path(char *path)
 {
-    if (path == NULL || strlen(path) == 0)
+    if (!path || strlen(path) == 0)
     {
         printf("Erro: caminho inválido.\n");
         return;
     }
 
-    FILE *arquivo = fopen("path.txt", "a");
-    if (arquivo == NULL)
+    ensure_config_dir();
+
+    char filepath[1024];
+    get_path_file(filepath, sizeof(filepath));
+
+    FILE *arquivo = fopen(filepath, "a");
+    if (!arquivo)
     {
-        printf("Erro fatal: Não foi possível abrir ou criar 'path.txt'.\n");
+        perror("Erro ao abrir arquivo de paths");
         return;
     }
 
@@ -55,19 +108,27 @@ void add_path(char *path)
     printf("Caminho adicionado: %s\n", path);
 }
 
+/* ===================== REMOVE PATH ===================== */
+
 void rm_path(const char *path)
 {
-    FILE *orig = fopen("path.txt", "r");
-    if (orig == NULL)
+    char filepath[1024];
+    get_path_file(filepath, sizeof(filepath));
+
+    FILE *orig = fopen(filepath, "r");
+    if (!orig)
     {
         printf("Erro: arquivo path.txt não encontrado.\n");
         return;
     }
 
-    FILE *temp = fopen("path.tmp", "w");
-    if (temp == NULL)
+    char tmpfile[2024];
+    snprintf(tmpfile, sizeof(tmpfile), "%s.tmp", filepath);
+
+    FILE *temp = fopen(tmpfile, "w");
+    if (!temp)
     {
-        printf("Erro: não foi possível criar arquivo temporário.\n");
+        perror("Erro ao criar arquivo temporário");
         fclose(orig);
         return;
     }
@@ -77,7 +138,6 @@ void rm_path(const char *path)
 
     while (fgets(linha, sizeof(linha), orig))
     {
-        // remove \n do fgets
         linha[strcspn(linha, "\n")] = '\0';
 
         if (strcmp(linha, path) != 0)
@@ -93,8 +153,8 @@ void rm_path(const char *path)
     fclose(orig);
     fclose(temp);
 
-    remove("path.txt");
-    rename("path.tmp", "path.txt");
+    remove(filepath);
+    rename(tmpfile, filepath);
 
     if (removido)
         printf("Caminho removido: %s\n", path);
@@ -102,3 +162,53 @@ void rm_path(const char *path)
         printf("Caminho não encontrado.\n");
 }
 
+/* ===================== WORKSTART ===================== */
+
+void run_for_each_path(void)
+{
+    char filepath[1024];
+    get_path_file(filepath, sizeof(filepath));
+
+    FILE *arquivo = fopen(filepath, "r");
+    if (!arquivo)
+    {
+        printf("Erro: arquivo path.txt não encontrado.\n");
+        return;
+    }
+
+    char path[1024];
+
+    while (fgets(path, sizeof(path), arquivo))
+    {
+        path[strcspn(path, "\n")] = '\0';
+
+        if (strlen(path) == 0)
+            continue;
+
+        printf("Iniciando: %s\n", path);
+
+        pid_t pid = fork();
+
+        if (pid == 0)
+        {
+            execl("/bin/sh", "sh", "-c", path, NULL);
+            perror("Erro ao executar comando");
+            _exit(1);
+        }
+        else if (pid > 0)
+        {
+            sleep(4);
+        }
+        else
+        {
+            perror("Erro ao criar processo");
+        }
+    }
+
+    fclose(arquivo);
+
+    printf(
+        "--------------------------------------------------------\n"
+        "                   Bom trabalho!!\n"
+        "--------------------------------------------------------\n");
+}
