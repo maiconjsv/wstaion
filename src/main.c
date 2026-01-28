@@ -45,7 +45,7 @@ int main(int argc, char *argv[])
     return 0;
 }
 
-/* ===================== UTILIDADES ===================== */
+/* ===================== FUNÇÕES ===================== */
 
 void ensure_config_dir(void)
 {

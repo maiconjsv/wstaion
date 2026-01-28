@@ -1,13 +1,19 @@
 CC = gcc
-CFLAGS = -Wall -Wextra
-TARGET = wstaon
+CFLAGS = -Wall -Wextra -O2
+TARGET = wstation
+PREFIX = /usr/local
 
-SRC = src/main.c src/launcher.c
+SRC = src/main.c
 
-all: $(TARGET)
+all:
+	$(CC) $(CFLAGS) $(SRC) -o $(TARGET)
 
-$(TARGET):
-	$(CC) $(CFLAGS) $(SRC) -o $(TARGET).exe
+install:
+	sudo cp $(TARGET) $(PREFIX)/bin/
+	sudo chmod +x $(PREFIX)/bin/$(TARGET)
+
+uninstall:
+	sudo rm -f $(PREFIX)/bin/$(TARGET)
 
 clean:
-	del $(TARGET).exe
+	rm -f $(TARGET)
