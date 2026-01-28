@@ -35,10 +35,38 @@ Os caminhos são armazenados em:
 ```
 ~/.config/wstaion/path.txt
 ```
-
+Cada linha do `path.txt` representa um programa que será executado na ordem em que foi adicionado.
 ---
 
 ### 🧪 Documentação de uso
+**Requisitos**
+* Linux
+* GCC
+* MAKE
+* GIT
+Caso for uma distro baseada em Debian/Unbutu
+```bash
+sudo apt install build-essential git
+```
+Clone o repositório 
+```bash
+git clone https://github.com/SEU_USUARIO/wstaion.git
+cd wstaion
+```
+Compile usando o comando
+```bash
+make
+```
+Ou compile manualmente
+```bash
+gcc main.c -o wstaion
+```
+
+Para poder executar o wstaion de qualquer lugar do terminal, mova o binário para /usr/local/bin
+```bash
+sudo mv wstaion /usr/local/bin/
+```
+Após isso, teste algum comando já funcional
 
 **Adicionar um programa:**
 Você pode mapear um programa digitando o seu caminho completo da raiz.
@@ -57,24 +85,6 @@ Agora, para iniciar os programas basta usar o seguinte comando.
 ```bash
 wstaion workstart
 ```
-
----
-
-### 📂 Estrutura da função de mapear e inicializar os programas
-
-O WSTAION segue o padrão do Linux para configurações de usuário:
-
-```
-~/.config/wstaion/
-└── path.txt
-```
-
-Cada linha do `path.txt` representa um programa que será executado na ordem em que foi adicionado.
-
----
-
-### 🛣️ Roadmap (próximas features)
-
 ---
 
 ### 🤝 Como contribuir
@@ -123,124 +133,3 @@ gcc main.c -o wstaion
 
 Este projeto ainda está em desenvolvimento inicial. Mudanças de comportamento e estrutura podem acontecer.
 
----
-
-## 🇺🇸 English (EN)
-
-### 📌 What is WSTAION?
-
-**WSTAION** is a command-line tool (CLI) written in **C**, designed to **map Linux programs and execute them sequentially** using a single command.
-
-The idea is simple: you register the paths of programs you use daily (browser, editor, IDE, etc.), and when you want to start your work environment, everything launches automatically.
-
-> ⚠️ **Current version:** `0.1`
-
-This is an early version, focused exclusively on **Linux**.
-
----
-
-### 🚀 Current features (v0.1)
-
-* Add program paths
-* Store paths in a user config file
-* Execute all registered programs in order
-* Simple terminal-based interface
-
-Paths are stored at:
-
-```
-~/.config/wstaion/path.txt
-```
-
----
-
-### 🧪 Usage examples
-
-Add a program:
-
-```bash
-wstaion add path "/usr/bin/firefox"
-```
-
-Remove a program:
-
-```bash
-wstaion rm path "/usr/bin/firefox"
-```
-
-Start the workflow:
-
-```bash
-wstaion workstart
-```
-
----
-
-### 📂 Configuration structure
-
-WSTAION follows the Linux user configuration standard:
-
-```
-~/.config/wstaion/
-└── path.txt
-```
-
-Each line in `path.txt` represents a program that will be executed in the order it was added.
-
----
-
-### 🛣️ Roadmap (upcoming features)
-
-* 🔁 Duplicate path checking before adding
-* 🪟 Windows version
-* 🗑️ Command to remove paths
-* 📋 List registered programs
-* ⚙️ Extra configuration options
-
----
-
-### 🤝 How to contribute
-
-Contributions are **very welcome** 🚀
-
-You can help by:
-
-1. **Reporting bugs** (Issues)
-2. **Suggesting features**
-3. **Improving documentation**
-4. **Submitting code (Pull Requests)**
-
-#### Basic steps:
-
-```bash
-git fork
-
-git clone <your-fork>
-
-create a feature branch
-git checkout -b my-feature
-```
-
-Make your changes, commit, and open a Pull Request explaining what you did.
-
----
-
-### 🛠️ Build
-
-To compile the project:
-
-```bash
-make
-```
-
-Or manually:
-
-```bash
-gcc main.c -o wstaion
-```
-
----
-
-### ⚠️ Disclaimer
-
-This project is still in early development. Behavior and structure may change.
