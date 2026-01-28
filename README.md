@@ -39,6 +39,7 @@ Cada linha do `path.txt` representa um programa que será executado na ordem em 
 ---
 
 ### 🧪 Documentação de uso
+###Linux
 **Requisitos**
 * Linux
 * GCC
@@ -90,6 +91,10 @@ Agora, para iniciar os programas basta usar o seguinte comando.
 wstaion workstart
 ```
 ---
+###Windows
+Compilar com MinGW:
+gcc main.c platform_windows.c -o wstaion.exe
+
 
 ### 🤝 Como contribuir
 
