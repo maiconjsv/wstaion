@@ -91,7 +91,7 @@ Agora, para iniciar os programas basta usar o seguinte comando.
 wstaion workstart
 ```
 ---
-###Windows
+#Windows
 ## Instalação no Windows
 No Windows, um comando só pode ser executado de qualquer lugar se o executável estiver em uma pasta listada na variável de ambiente **PATH**.
 
