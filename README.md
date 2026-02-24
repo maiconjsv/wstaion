@@ -5,8 +5,7 @@
 
 ### O que é o WSTAION?
 
-**WSTAION** é uma ferramenta de linha de comando (CLI) escrita em **C**, criada para facilitar o fluxo de trabalho do dia a dia.
-Atualmente a ferramenta está na sua versão 0.1 e conta com a função de mapear programas do Linux e executá-los em sequência, garantindo que você não precise ficar abrindo diversos programas na sua máquina pessoal ou da sua empresa para realmente começar a trabalhar. Basta apenas mapear os programas desejados, e sempre que for iniciar o trabalho, apertar apenas um comando e esperar os programas abrirem pra você.
+**WSTAION** é uma ferramenta de linha de comando (CLI) escrita em **C**, criada com a idéia de ser um assistente virtual diretamente na linha de comando, agilizando algumas tarefas do meu dia a dia no trabalho, ganhando agilidade e evitando tarefas maçantes.
 
 
 ### 🚀 Funcionalidades atuais (v0.1)
@@ -21,8 +20,6 @@ Atualmente a ferramenta está na sua versão 0.1 e conta com a função de mapea
 * **Salvar palavras chaves em um dicionário pessoal**
     A idéia é focar em salvar diretamente no terminal conceitos e palavras(técnicas ou não) e escrever um breve resumo do seu significado, podendo ser útil para novos colaboradores       ou projetos que exigem aprender vários novos conceitos e palavras chave que precisam ser relembradas com frequência ou eventualmente, e com isso, tornara consulta mais rápida e       eficiente pela natureza do terminal estar de fácil acesso a todo momento.
   
-* **Versão para Windows**
-    (parcialmente feita)Adcionar uma versão para Windows, para ser utilizada via PowerShell.
 
 * **Verificação de paths duplicados antes de adicionar**
 * **Listagem dos programas cadastrados**
