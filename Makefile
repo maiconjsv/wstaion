@@ -1,14 +1,18 @@
 CC = gcc
 CFLAGS = -Wall -Wextra -O2
-TARGET = wstation
-PREFIX = /usr/local
-
+TARGET = wstaion
 SRC = src/main.c
 
-all:
-	$(CC) $(CFLAGS) $(SRC) -o $(TARGET)
+PREFIX = /usr/local
 
-install:
+VERSION := $(shell git describe --tags --always)
+
+all: $(TARGET)
+
+$(TARGET):
+	$(CC) $(CFLAGS) $(SRC) -o $(TARGET) -DVERSION=\"$(VERSION)\"
+
+install: $(TARGET)
 	sudo cp $(TARGET) $(PREFIX)/bin/
 	sudo chmod +x $(PREFIX)/bin/$(TARGET)
 

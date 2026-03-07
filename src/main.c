@@ -6,12 +6,17 @@
 #include <sys/stat.h>
 #include <errno.h>
 
+#ifndef VERSION
+#define VERSION "dev"
+#endif
+
 void add_path(char *path);
 void rm_path(const char *path);
 void run_for_each_path(void);
 void ensure_config_dir(void);
 void get_path_file(char *buffer, size_t size);
-
+void show_version();
+void show_help();
 int main(int argc, char *argv[])
 {
     if (argc < 2)
@@ -37,6 +42,18 @@ int main(int argc, char *argv[])
     {
         run_for_each_path();
     }
+    else if (argc == 2 && (strcmp(argv[1], "-v" ) == 0 
+            || strcmp(argv[1], "--version")== 0))
+    {
+        show_version();
+        return 0;
+    }
+    else if(argc == 2 && strcmp(argv[1], "help") == 0)
+    {
+        show_help();
+        return 0;
+    }
+
     else
     {
         printf("Comando não reconhecido, use wstation help para verificar comandos.\n");
@@ -45,7 +62,7 @@ int main(int argc, char *argv[])
     return 0;
 }
 
-/* ===================== FUNÇÕES ===================== */
+/* ===================== FUNCTIONS ===================== */
 
 void ensure_config_dir(void)
 {
@@ -64,6 +81,41 @@ void ensure_config_dir(void)
         perror("Erro ao criar diretório de configuração");
         exit(1);
     }
+}
+
+void show_version()
+{
+    printf("wstation %s\n", VERSION);
+    printf("https://github.com/maiconjsv/wstaion\n");
+}
+
+void show_help()
+{
+    printf(
+            "wstaion - workspace launcher\n"
+            "\n"
+            "Usage:\n"
+            "  wstaion <command> [arguments]\n"
+            "\n"
+            "Commands:\n"
+            "  \033[32madd path <path>\033[0m        Add a command or path to the startup list\n"
+            "  \033[32mrm path <path>\033[0m         Remove a saved path\n"
+            "  \033[32mworkstart\033[0m              Run all saved paths\n"
+            "  \033[32mhelp\033[0m                   Show this help message\n"
+            "  \033[32m-v, --version\033[0m          Show program version\n"
+            "\n"
+            "Examples:\n"
+            "  wstaion add path \"code ~/Projects/api\"\n"
+            "  wstaion add path \"firefox\"\n"
+            "  wstaion rm path \"firefox\"\n"
+            "  wstaion workstart\n"
+            "\n"
+            "Config file:\n"
+            "\033[1;36m~/.config/wstaion/path.txt\033[0m\n"
+            "\n"
+            "Project repository:\n"
+            "  https://github.com/maiconjsv/wstaion\n"
+        );
 }
 
 void get_path_file(char *buffer, size_t size)
@@ -209,6 +261,8 @@ void run_for_each_path(void)
 
     printf(
         "--------------------------------------------------------\n"
-        "                   Bom trabalho!!\n"
+        "                All systems running.\n                    "
+        "                Coffee required.\n                        "
+        "                Good luck, developer.\n                   "  
         "--------------------------------------------------------\n");
 }
