@@ -286,7 +286,7 @@ if(system(cmd) == -1)
         "--------------------------------------------------------\n"
         "                All systems running.\n"
         "                Coffee required.\n"
-        "                Good luck, developer.\n"
+        "                Good luck.\n"
         "--------------------------------------------------------\n");
 }
 
