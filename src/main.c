@@ -5,12 +5,10 @@
 
 #ifdef _WIN32
 #include <windows.h>
+#include <direct.h>
 #else
 #include <unistd.h>
-#endif
-
-#ifndef VERSION
-#define VERSION "dev"
+#include <sys/stat.h>
 #endif
 
 void add_path(char *path);
@@ -268,7 +266,10 @@ void run_for_each_path(void)
         snprintf(cmd, sizeof(cmd), "%s &", path);
 #endif
 
-        system(cmd);
+if(system(cmd) == -1)
+{
+    perror("Erro ao executar comando");
+}
 
 #ifdef _WIN32
         Sleep(5000);
