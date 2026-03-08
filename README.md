@@ -1,5 +1,5 @@
 # WSTAION
-> ⚠️ **Versão atual:** `0.1`
+> ⚠️ **Versão atual:** `v1.0.2`
 
 ## 🇧🇷 Português (PT-BR)
 
@@ -8,12 +8,13 @@
 **WSTAION** é uma ferramenta de linha de comando (CLI) escrita em **C**, criada com a idéia de ser um assistente virtual diretamente na linha de comando, agilizando algumas tarefas do meu dia a dia no trabalho, ganhando agilidade e evitando tarefas maçantes.
 
 
-### 🚀 Funcionalidades atuais (v0.1)
+### 🚀 Funcionalidades atuais (v1.0.2)
 
 * Adicionar caminhos de programas que vão ser executados
 * Remover caminhos adcionados no path
 * Armazenar os paths em um arquivo de configuração do usuário
 * Executar todos os programas mapeados sem sobrecarregar a memória
+* Listagem dos programas cadastrados
 
 
 ### Features futuras em desenvolvimento
@@ -22,7 +23,6 @@
   
 
 * **Verificação de paths duplicados antes de adicionar**
-* **Listagem dos programas cadastrados**
 * **Configurações extras via arquivo**
 
 ---
