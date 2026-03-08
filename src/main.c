@@ -1,10 +1,13 @@
 #include <stdio.h>
 #include <string.h>
-#include <unistd.h>
-#include <sys/wait.h>
 #include <stdlib.h>
-#include <sys/stat.h>
 #include <errno.h>
+
+#ifdef _WIN32
+#include <direct.h>
+#else
+#include <sys/stat.h>
+#endif
 
 #ifndef VERSION
 #define VERSION "dev"
@@ -17,14 +20,15 @@ void ensure_config_dir(void);
 void get_path_file(char *buffer, size_t size);
 void show_version();
 void show_help();
+void list_paths();
+
 int main(int argc, char *argv[])
 {
     if (argc < 2)
     {
-        printf("Comando não reconhecido, use wstation help para verificar comandos.\n");
+        printf("Comando não reconhecido, use wstaion help para verificar comandos.\n");
         return 1;
     }
-
     if (argc == 4 && strcmp(argv[1], "add") == 0 && strcmp(argv[2], "path") == 0)
     {
         add_path(argv[3]);
@@ -53,10 +57,14 @@ int main(int argc, char *argv[])
         show_help();
         return 0;
     }
+    else if(argc == 2 && (strcmp(argv[1], "list") == 0))
+    {
+        list_paths();
+    }
 
     else
     {
-        printf("Comando não reconhecido, use wstation help para verificar comandos.\n");
+        printf("Comando não reconhecido, use wstaion help para verificar comandos.\n");
     }
 
     return 0;
@@ -66,26 +74,35 @@ int main(int argc, char *argv[])
 
 void ensure_config_dir(void)
 {
-    const char *home = getenv("HOME");
-    if (!home)
-    {
-        fprintf(stderr, "Erro: variável HOME não definida.\n");
-        exit(1);
-    }
+    #ifdef _WIN32
+        const char *home = getenv("USERPROFILE");
+    #else
+        const char *home = getenv("HOME");
+    #endif
 
-    char dir[1024];
-    snprintf(dir, sizeof(dir), "%s/.config/wstation", home);
+        if (!home)
+        {
+            fprintf(stderr, "Erro: variável HOME não definida.\n");
+            exit(1);
+        }
 
-    if (mkdir(dir, 0755) == -1 && errno != EEXIST)
-    {
-        perror("Erro ao criar diretório de configuração");
-        exit(1);
-    }
+        char dir[1024];
+        snprintf(dir, sizeof(dir), "%s/.config/wstaion", home);
+
+    #ifdef _WIN32
+        if (_mkdir(dir) == -1 && errno != EEXIST)
+    #else
+        if (mkdir(dir, 0755) == -1 && errno != EEXIST)
+    #endif
+        {
+            perror("Erro ao criar diretório de configuração");
+            exit(1);
+        }
 }
 
 void show_version()
 {
-    printf("wstation %s\n", VERSION);
+    printf("wstaion %s\n", VERSION);
     printf("https://github.com/maiconjsv/wstaion\n");
 }
 
@@ -120,16 +137,20 @@ void show_help()
 
 void get_path_file(char *buffer, size_t size)
 {
-    const char *home = getenv("HOME");
-    if (!home)
-    {
-        fprintf(stderr, "Erro: variável HOME não definida.\n");
-        exit(1);
-    }
+    #ifdef _WIN32
+        const char *home = getenv("USERPROFILE");
+    #else
+        const char *home = getenv("HOME");
+    #endif
+        if (!home)
+        {
+            fprintf(stderr, "Erro: variável HOME não definida.\n");
+            exit(1);
+        }
 
-    snprintf(buffer, size,
-             "%s/.config/wstation/path.txt",
-             home);
+        snprintf(buffer, size,
+                "%s/.config/wstaion/path.txt",
+                home);
 }
 
 /* ===================== ADD PATH ===================== */
@@ -238,22 +259,9 @@ void run_for_each_path(void)
             continue;
 
         printf("Iniciando: %s\n", path);
-
-        pid_t pid = fork();
-
-        if (pid == 0)
+        if (system(path) == -1)
         {
-            execl("/bin/sh", "sh", "-c", path, NULL);
             perror("Erro ao executar comando");
-            _exit(1);
-        }
-        else if (pid > 0)
-        {
-            sleep(4);
-        }
-        else
-        {
-            perror("Erro ao criar processo");
         }
     }
 
@@ -265,4 +273,28 @@ void run_for_each_path(void)
         "                Coffee required.\n                        "
         "                Good luck, developer.\n                   "  
         "--------------------------------------------------------\n");
+}
+
+void list_paths()
+{
+    char filepath[1024];
+    get_path_file(filepath, sizeof(filepath));
+
+    FILE *arquivo = fopen(filepath, "r");
+    if (!arquivo)
+    {
+        printf("Nenhum path configurado.\n");
+        return;
+    }
+
+    char linha[1024];
+    int i = 1;
+
+    while (fgets(linha, sizeof(linha), arquivo))
+    {
+        linha[strcspn(linha, "\n")] = '\0';
+        printf("%d - %s\n", i++, linha);
+    }
+
+    fclose(arquivo);
 }

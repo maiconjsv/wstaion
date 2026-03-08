@@ -7,10 +7,17 @@ PREFIX = /usr/local
 
 VERSION := $(shell git describe --tags --always)
 
+# cross compiler windows
+WINCC = x86_64-w64-mingw32-gcc
+WINTARGET = wstaion.exe
+
 all: $(TARGET)
 
 $(TARGET):
 	$(CC) $(CFLAGS) $(SRC) -o $(TARGET) -DVERSION=\"$(VERSION)\"
+
+windows:
+	$(WINCC) $(CFLAGS) $(SRC) -o $(WINTARGET) -DVERSION=\"$(VERSION)\"
 
 install: $(TARGET)
 	sudo cp $(TARGET) $(PREFIX)/bin/
