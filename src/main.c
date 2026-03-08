@@ -4,9 +4,9 @@
 #include <errno.h>
 
 #ifdef _WIN32
-#include <direct.h>
+#include <windows.h>
 #else
-#include <sys/stat.h>
+#include <unistd.h>
 #endif
 
 #ifndef VERSION
@@ -26,7 +26,7 @@ int main(int argc, char *argv[])
 {
     if (argc < 2)
     {
-        printf("Comando não reconhecido, use wstaion help para verificar comandos.\n");
+        printf("Command not recognized, use wstation help to verify commands.\n");
         return 1;
     }
     if (argc == 4 && strcmp(argv[1], "add") == 0 && strcmp(argv[2], "path") == 0)
@@ -40,7 +40,7 @@ int main(int argc, char *argv[])
     }
     else if (argc < 4 && strcmp(argv[1], "add") == 0)
     {
-        printf("Erro: Faltou o caminho.\n");
+        printf("Error: The path was missing.\n");
     }
     else if (argc == 2 && strcmp(argv[1], "workstart") == 0)
     {
@@ -64,7 +64,7 @@ int main(int argc, char *argv[])
 
     else
     {
-        printf("Comando não reconhecido, use wstaion help para verificar comandos.\n");
+        printf("Command not recognized, use wstation help to verify commands.\n");
     }
 
     return 0;
@@ -82,7 +82,7 @@ void ensure_config_dir(void)
 
         if (!home)
         {
-            fprintf(stderr, "Erro: variável HOME não definida.\n");
+            fprintf(stderr, "Error: HOME variable not defined.\n");
             exit(1);
         }
 
@@ -95,7 +95,7 @@ void ensure_config_dir(void)
         if (mkdir(dir, 0755) == -1 && errno != EEXIST)
     #endif
         {
-            perror("Erro ao criar diretório de configuração");
+            perror("Error creating configuration directory.");
             exit(1);
         }
 }
@@ -144,7 +144,7 @@ void get_path_file(char *buffer, size_t size)
     #endif
         if (!home)
         {
-            fprintf(stderr, "Erro: variável HOME não definida.\n");
+            fprintf(stderr, "Error: HOME variable not defined.\n");
             exit(1);
         }
 
@@ -159,7 +159,7 @@ void add_path(char *path)
 {
     if (!path || strlen(path) == 0)
     {
-        printf("Erro: caminho inválido.\n");
+        printf("Error: Invalid path.\n");
         return;
     }
 
@@ -171,14 +171,14 @@ void add_path(char *path)
     FILE *arquivo = fopen(filepath, "a");
     if (!arquivo)
     {
-        perror("Erro ao abrir arquivo de paths");
+        perror("Error to open paths file");
         return;
     }
 
     fprintf(arquivo, "%s\n", path);
     fclose(arquivo);
 
-    printf("Caminho adicionado: %s\n", path);
+    printf("Path added: %s\n", path);
 }
 
 /* ===================== REMOVE PATH ===================== */
@@ -191,7 +191,7 @@ void rm_path(const char *path)
     FILE *orig = fopen(filepath, "r");
     if (!orig)
     {
-        printf("Erro: arquivo path.txt não encontrado.\n");
+        printf("Error: file path.txt not founded.\n");
         return;
     }
 
@@ -201,7 +201,7 @@ void rm_path(const char *path)
     FILE *temp = fopen(tmpfile, "w");
     if (!temp)
     {
-        perror("Erro ao criar arquivo temporário");
+        perror("Error to create temp file");
         fclose(orig);
         return;
     }
@@ -230,9 +230,9 @@ void rm_path(const char *path)
     rename(tmpfile, filepath);
 
     if (removido)
-        printf("Caminho removido: %s\n", path);
+        printf("Path deleted: %s\n", path);
     else
-        printf("Caminho não encontrado.\n");
+        printf("Path not founded.\n");
 }
 
 /* ===================== WORKSTART ===================== */
@@ -245,7 +245,7 @@ void run_for_each_path(void)
     FILE *arquivo = fopen(filepath, "r");
     if (!arquivo)
     {
-        printf("Erro: arquivo path.txt não encontrado.\n");
+        printf("Error: path.txt not founded.\n");
         return;
     }
 
@@ -259,19 +259,31 @@ void run_for_each_path(void)
             continue;
 
         printf("Iniciando: %s\n", path);
-        if (system(path) == -1)
-        {
-            perror("Erro ao executar comando");
-        }
+
+        char cmd[1200];
+
+#ifdef _WIN32
+        snprintf(cmd, sizeof(cmd), "start \"\" %s", path);
+#else
+        snprintf(cmd, sizeof(cmd), "%s &", path);
+#endif
+
+        system(cmd);
+
+#ifdef _WIN32
+        Sleep(5000);
+#else
+        sleep(5);
+#endif
     }
 
     fclose(arquivo);
 
     printf(
         "--------------------------------------------------------\n"
-        "                All systems running.\n                    "
-        "                Coffee required.\n                        "
-        "                Good luck, developer.\n                   "  
+        "                All systems running.\n"
+        "                Coffee required.\n"
+        "                Good luck, developer.\n"
         "--------------------------------------------------------\n");
 }
 
