@@ -2,7 +2,9 @@
 #include <string.h>
 #include <stdlib.h>
 #include <errno.h>
-
+#ifndef VERSION
+#define VERSION "dev"
+#endif
 #ifdef _WIN32
 #include <windows.h>
 #include <direct.h>
@@ -189,7 +191,7 @@ void rm_path(const char *path)
     FILE *orig = fopen(filepath, "r");
     if (!orig)
     {
-        printf("Error: file path.txt not founded.\n");
+        printf("Error: path.txt file not found.\n");
         return;
     }
 
@@ -230,7 +232,7 @@ void rm_path(const char *path)
     if (removido)
         printf("Path deleted: %s\n", path);
     else
-        printf("Path not founded.\n");
+        printf("Path not found.\n");
 }
 
 /* ===================== WORKSTART ===================== */
@@ -256,7 +258,7 @@ void run_for_each_path(void)
         if (strlen(path) == 0)
             continue;
 
-        printf("Iniciando: %s\n", path);
+        printf("Starting: %s\n", path);
 
         char cmd[1200];
 
@@ -296,7 +298,7 @@ void list_paths()
     FILE *arquivo = fopen(filepath, "r");
     if (!arquivo)
     {
-        printf("Nenhum path configurado.\n");
+        printf("No paths configured.\n");
         return;
     }
 
