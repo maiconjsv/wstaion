@@ -20,6 +20,6 @@ The full documentation, installation guide, and usage instructions are available
 ## ⚡ Example
 
 ```bash
-wstaion add /usr/bin/code
-wstaion add /usr/bin/firefox
+wstaion add path /usr/bin/code
+wstaion add path /usr/bin/firefox
 wstaion workstart
